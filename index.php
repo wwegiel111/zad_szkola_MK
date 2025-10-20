@@ -2,12 +2,12 @@
 session_start();
 
 $db_user = 'user1';
-$db_pass = 'user1';
+$db_pass = 'haslo_czyta';
 $is_admin = false;
 
 if (isset($_SESSION['user']) && $_SESSION['user'] === 'admin') {
     $db_user = 'user2';
-    $db_pass = 'user2';
+    $db_pass = 'haslo_admin';
     $is_admin = true;
 }
 
@@ -26,7 +26,7 @@ if (isset($_POST['akcja_wyloguj'])) {
 
 if ($is_admin) {
     if (isset($_POST['akcja_dodaj'])) {
-        $sql = "INSERT INTO uczniowie (id_ucz, nazwisko, imie, pesel, adres_ul, adres_nr, miasto)
+        $sql = "INSERT INTO uczniowie (id_ucz, nazwisko, imie, pesel, adres_ul, adres_nr, miasto) 
                 VALUES ('{$_POST['id_ucz']}', '{$_POST['nazwisko']}', '{$_POST['imie']}', '{$_POST['pesel']}', '{$_POST['adres_ul']}', '{$_POST['adres_nr']}', '{$_POST['miasto']}')";
         mysqli_query($conn, $sql);
     }
@@ -37,13 +37,13 @@ if ($is_admin) {
         }
     }
     if (isset($_POST['akcja_zapisz_edycje'])) {
-        $sql = "UPDATE uczniowie SET
-                    nazwisko = '{$_POST['nazwisko']}',
-                    imie = '{$_POST['imie']}',
-                    pesel = '{$_POST['pesel']}',
-                    adres_ul = '{$_POST['adres_ul']}',
-                    adres_nr = '{$_POST['adres_nr']}',
-                    miasto = '{$_POST['miasto']}'
+        $sql = "UPDATE uczniowie SET 
+                    nazwisko = '{$_POST['nazwisko']}', 
+                    imie = '{$_POST['imie']}', 
+                    pesel = '{$_POST['pesel']}', 
+                    adres_ul = '{$_POST['adres_ul']}', 
+                    adres_nr = '{$_POST['adres_nr']}', 
+                    miasto = '{$_POST['miasto']}' 
                 WHERE id_ucz = {$_POST['id_ucz']}";
         mysqli_query($conn, $sql);
         header('Location: index.php');
@@ -69,13 +69,13 @@ if ($is_admin && isset($_GET['akcja']) && $_GET['akcja'] == 'eksport') {
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <title>Baza uczniowie</title>
+    <title>Baza uczniowie (wg Twojego SQL)</title>
 </head>
 <body>
 
     <div style="background: #eee; padding: 10px;">
         <?php if ($is_admin): ?>
-            <b>Zalogowano jako User 2 (Admin)</b>?>
+            <b>Zalogowano jako User 2 (Admin)</b>
             <form action="index.php" method="POST" style="display: inline;">
                 <button type="submit" name="akcja_wyloguj">Rozłącz</button>
             </form>
@@ -86,9 +86,9 @@ if ($is_admin && isset($_GET['akcja']) && $_GET['akcja'] == 'eksport') {
             </form>
         <?php endif; ?>
     </div>
-
+    
     <hr>
-
+    
     <?php if ($is_admin && isset($_GET['akcja']) && $_GET['akcja'] == 'edytuj'): ?>
         <?php
             $id = $_GET['id'];
@@ -99,7 +99,7 @@ if ($is_admin && isset($_GET['akcja']) && $_GET['akcja'] == 'eksport') {
         <form action="index.php" method="POST">
             <input type="hidden" name="akcja_zapisz_edycje" value="1">
             <input type="hidden" name="id_ucz" value="<?php echo $uczen['id_ucz']; ?>">
-
+            
             <p>ID Ucznia: <?php echo $uczen['id_ucz']; ?> (Nie można edytować)</p>
             <p>Nazwisko: <input type="text" name="nazwisko" value="<?php echo $uczen['nazwisko']; ?>"></p>
             <p>Imię: <input type="text" name="imie" value="<?php echo $uczen['imie']; ?>"></p>
@@ -107,7 +107,7 @@ if ($is_admin && isset($_GET['akcja']) && $_GET['akcja'] == 'eksport') {
             <p>Ulica: <input type="text" name="adres_ul" value="<?php echo $uczen['adres_ul']; ?>"></p>
             <p>Nr domu: <input type="text" name="adres_nr" value="<?php echo $uczen['adres_nr']; ?>"></p>
             <p>Miasto: <input type="text" name="miasto" value="<?php echo $uczen['miasto']; ?>"></p>
-
+            
             <button type="submit">Zapisz zmiany</button>
             <a href="index.php">Anuluj</a>
         </form>
@@ -122,7 +122,7 @@ if ($is_admin && isset($_GET['akcja']) && $_GET['akcja'] == 'eksport') {
                         <button type="submit">Filtruj</button>
                         <a href="index.php">Wyczyść</a>
                     </form>
-
+                    
                     <?php if ($is_admin): ?>
                     <hr>
                     <h3>Dodaj ucznia (Zad 3)</h3>
@@ -139,7 +139,7 @@ if ($is_admin && isset($_GET['akcja']) && $_GET['akcja'] == 'eksport') {
                     </form>
                     <?php endif; ?>
                 </td>
-
+                
                 <td width="70%" valign="top">
                     <?php
                         $sql = "SELECT * FROM uczniowie";
